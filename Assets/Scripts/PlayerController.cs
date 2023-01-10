@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
@@ -10,8 +11,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector2 input;
     [SerializeField] LayerMask solidObjectsLayer;
     [SerializeField] LayerMask DoorLayer;
+    [SerializeField] LayerMask NPCLayer;
     [SerializeField] private GameObject doorLocation;
     [SerializeField] private bool doorWasTouched;
+    [SerializeField] private bool npcWasTouched;
+    [SerializeField] private bool limitedMovment;
+    [SerializeField] private GameObject pressEtoInteractCanvas;
+
 
     private Animator animatorController;
 
@@ -19,6 +25,9 @@ public class PlayerController : MonoBehaviour
     {
         animatorController = GetComponent<Animator>();
         doorWasTouched = false;
+        npcWasTouched = false;
+        limitedMovment = false;
+        pressEtoInteractCanvas.SetActive(false);
     }
 
     // Update is called once per frame
@@ -38,6 +47,7 @@ public class PlayerController : MonoBehaviour
                 targetPos.x += input.x;
                 targetPos.y += input.y;
 
+                //if(!limitedMovment)
                 if (isDoor(targetPos))
                     if (isWalkable(targetPos))
                         StartCoroutine(Move(targetPos));
@@ -47,6 +57,8 @@ public class PlayerController : MonoBehaviour
 
         if(doorWasTouched)
             transform.position = Vector3.MoveTowards(transform.position, doorLocation.transform.position, 1f * Time.deltaTime);
+
+        isNPC();
     }
 
     IEnumerator Move(Vector3 targetPos)
@@ -76,8 +88,24 @@ public class PlayerController : MonoBehaviour
             doorWasTouched = true;
             isMoving = true;
             StartCoroutine(FadeTo(0f, 2f));
+            return false;
         }
         return true;
+    }
+   private void isNPC()
+    {
+        if (Physics2D.OverlapCircle(transform.position, 0.001f, NPCLayer) != null)
+        {
+            npcWasTouched = true;
+            limitedMovment = true;
+            pressEtoInteractCanvas.SetActive(true);
+        }
+        else
+        {
+            npcWasTouched = false;
+            limitedMovment = false;
+            pressEtoInteractCanvas.SetActive(false);
+        }
     }
 
     IEnumerator FadeTo(float aValue, float aTime)
