@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - positions
+  - legs
+  - tops
   layers:
   - Default
   - TransparentFX
@@ -17,7 +20,7 @@ TagManager:
   - Door
   - NPC
   - Player
-  - 
+  - Clothes
   - 
   - 
   - 
@@ -56,9 +59,18 @@ TagManager:
   - name: Foreground 2
     uniqueID: 106637013
     locked: 0
+  - name: Baloon Canvas
+    uniqueID: 4010479717
+    locked: 0
+  - name: NPC
+    uniqueID: 1394731833
+    locked: 0
   - name: Player
     uniqueID: 521316861
     locked: 0
   - name: Visuals 2
     uniqueID: 2659799427
+    locked: 0
+  - name: Inventory
+    uniqueID: 3815956557
     locked: 0

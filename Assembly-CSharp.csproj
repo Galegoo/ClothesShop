@@ -57,7 +57,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\FollowGameObject.cs" />
+    <Compile Include="Assets\Scripts\PopUpActivator.cs" />
+    <Compile Include="Assets\Scripts\ColorChanger.cs" />
+    <Compile Include="Assets\Scripts\Inventory.cs" />
     <Compile Include="Assets\Scripts\FlashObject.cs" />
+    <Compile Include="Assets\Scripts\NPCUIController.cs" />
+    <Compile Include="Assets\Scripts\TextTyper.cs" />
+    <Compile Include="Assets\Scripts\ClothesActivator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

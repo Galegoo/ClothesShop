@@ -155,9 +155,9 @@ TextureImporter:
       name: Full1_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 77
-        width: 26
+        x: 5
+        y: 76
+        width: 24
         height: 24
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -177,7 +177,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 27
-        y: 77
+        y: 76
         width: 24
         height: 24
       alignment: 0
@@ -197,9 +197,9 @@ TextureImporter:
       name: Full1_2
       rect:
         serializedVersion: 2
-        x: 51
-        y: 77
-        width: 29
+        x: 50
+        y: 76
+        width: 23
         height: 24
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -218,10 +218,10 @@ TextureImporter:
       name: Full1_3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 52
-        width: 26
-        height: 25
+        x: 12
+        y: 58
+        width: 18
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -239,10 +239,10 @@ TextureImporter:
       name: Full1_4
       rect:
         serializedVersion: 2
-        x: 27
-        y: 52
-        width: 24
-        height: 25
+        x: 34
+        y: 58
+        width: 17
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,10 +260,10 @@ TextureImporter:
       name: Full1_5
       rect:
         serializedVersion: 2
-        x: 51
-        y: 52
-        width: 29
-        height: 25
+        x: 54
+        y: 58
+        width: 18
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -281,10 +281,10 @@ TextureImporter:
       name: Full1_6
       rect:
         serializedVersion: 2
-        x: 1
+        x: 5
         y: 27
-        width: 26
-        height: 25
+        width: 24
+        height: 28
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -302,10 +302,10 @@ TextureImporter:
       name: Full1_7
       rect:
         serializedVersion: 2
-        x: 27
+        x: 28
         y: 27
-        width: 24
-        height: 25
+        width: 22
+        height: 28
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -325,8 +325,8 @@ TextureImporter:
         serializedVersion: 2
         x: 51
         y: 27
-        width: 29
-        height: 25
+        width: 22
+        height: 28
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -344,10 +344,10 @@ TextureImporter:
       name: Full1_9
       rect:
         serializedVersion: 2
-        x: 1
-        y: 2
-        width: 26
-        height: 25
+        x: 4
+        y: 1
+        width: 24
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -365,10 +365,10 @@ TextureImporter:
       name: Full1_10
       rect:
         serializedVersion: 2
-        x: 27
-        y: 2
+        x: 23
+        y: 1
         width: 24
-        height: 25
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -386,10 +386,10 @@ TextureImporter:
       name: Full1_11
       rect:
         serializedVersion: 2
-        x: 51
-        y: 2
-        width: 29
-        height: 25
+        x: 45
+        y: 1
+        width: 23
+        height: 30
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}

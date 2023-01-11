@@ -14,20 +14,22 @@ public class PlayerController : MonoBehaviour
     [SerializeField] LayerMask NPCLayer;
     [SerializeField] private GameObject doorLocation;
     [SerializeField] private bool doorWasTouched;
-    [SerializeField] private bool npcWasTouched;
-    [SerializeField] private bool limitedMovment;
-    [SerializeField] private GameObject pressEtoInteractCanvas;
+    [SerializeField] static bool npcWasTouched;
+    [SerializeField] static bool limitedMovment;
+    public static bool movedAfterStore;
 
 
     private Animator animatorController;
+    [SerializeField] private Animator[] clothesAnimatorController;
 
     private void Awake()
     {
         animatorController = GetComponent<Animator>();
+        //clothesAnimatorController = GameObject.Find("Clothes").GetComponent<Animator>();
         doorWasTouched = false;
         npcWasTouched = false;
         limitedMovment = false;
-        pressEtoInteractCanvas.SetActive(false);
+        movedAfterStore = true;
     }
 
     // Update is called once per frame
@@ -40,22 +42,32 @@ public class PlayerController : MonoBehaviour
 
             if (input != Vector2.zero)
             {
+                
                 animatorController.SetFloat("moveX", input.x);
                 animatorController.SetFloat("moveY", input.y);
-
+                for (int i = 0; i < clothesAnimatorController.Length; i++)
+                {
+                    clothesAnimatorController[i].SetFloat("moveX", input.x);
+                    clothesAnimatorController[i].SetFloat("moveY", input.y);
+                }
                 var targetPos = transform.position;
                 targetPos.x += input.x;
                 targetPos.y += input.y;
 
-                //if(!limitedMovment)
+            if(!limitedMovment)
                 if (isDoor(targetPos))
                     if (isWalkable(targetPos))
                         StartCoroutine(Move(targetPos));
             }
         }
         animatorController.SetBool("isMoving", isMoving);
+        for (int i = 0; i < clothesAnimatorController.Length; i++)
+        {
+            clothesAnimatorController[i].SetBool("isMoving", isMoving);
+        }
 
-        if(doorWasTouched)
+
+        if (doorWasTouched)
             transform.position = Vector3.MoveTowards(transform.position, doorLocation.transform.position, 1f * Time.deltaTime);
 
         isNPC();
@@ -64,7 +76,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Move(Vector3 targetPos)
     {
         isMoving = true;
-
+        movedAfterStore = true;
         while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
@@ -96,15 +108,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Physics2D.OverlapCircle(transform.position, 0.001f, NPCLayer) != null)
         {
-            npcWasTouched = true;
-            limitedMovment = true;
-            pressEtoInteractCanvas.SetActive(true);
+            npcWasTouched = true;          
         }
         else
         {
             npcWasTouched = false;
-            limitedMovment = false;
-            pressEtoInteractCanvas.SetActive(false);
         }
     }
 
@@ -119,5 +127,14 @@ public class PlayerController : MonoBehaviour
         }
         yield return new WaitForSeconds(0.5f);
         SceneManager.LoadScene("Store");
+    }
+
+    public static bool GetNpcWasTouched()
+    {
+        return npcWasTouched;
+    }
+    public static void changeLimitMovmentStatus(bool state)
+    {
+        limitedMovment = state;
     }
 }
