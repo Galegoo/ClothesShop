@@ -7,6 +7,8 @@ TagManager:
   - positions
   - legs
   - tops
+  - full
+  - full2
   layers:
   - Default
   - TransparentFX

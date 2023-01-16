@@ -16,26 +16,27 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool doorWasTouched;
     [SerializeField] static bool npcWasTouched;
     [SerializeField] static bool limitedMovment;
-    public static bool movedAfterStore;
+    [SerializeField] static bool playerIsLeft;
+    [SerializeField] static bool playerIsRight;
+    [SerializeField] static bool playerIsUp;
+    [SerializeField] static bool playerIsDown;
 
 
     private Animator animatorController;
-    [SerializeField] private Animator[] clothesAnimatorController;
+    public Animator[] clothesAnimatorController;
 
     private void Awake()
     {
         animatorController = GetComponent<Animator>();
-        //clothesAnimatorController = GameObject.Find("Clothes").GetComponent<Animator>();
         doorWasTouched = false;
         npcWasTouched = false;
         limitedMovment = false;
-        movedAfterStore = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isMoving)
+        if (!isMoving && !limitedMovment)
         {
             input.x = Input.GetAxisRaw("Horizontal");
             input.y = Input.GetAxisRaw("Vertical");
@@ -45,38 +46,69 @@ public class PlayerController : MonoBehaviour
                 
                 animatorController.SetFloat("moveX", input.x);
                 animatorController.SetFloat("moveY", input.y);
+                if (input.x == 1)
+                {
+                    playerIsRight = true;
+                    playerIsUp = false;
+                    playerIsLeft = false;
+                    playerIsDown = false;
+                }
+                else if (input.x == -1)
+                {
+                    playerIsRight = false;
+                    playerIsUp = false;
+                    playerIsLeft = true;
+                    playerIsDown = false;
+                }
+                if (input.y == 1)
+                {
+                    playerIsRight = false;
+                    playerIsUp = true;
+                    playerIsLeft = false;
+                    playerIsDown = false;
+                }
+                else if (input.y == -1)
+                {
+                    playerIsRight = false;
+                    playerIsUp = false;
+                    playerIsLeft = false;
+                    playerIsDown = true;
+                }
                 for (int i = 0; i < clothesAnimatorController.Length; i++)
                 {
-                    clothesAnimatorController[i].SetFloat("moveX", input.x);
-                    clothesAnimatorController[i].SetFloat("moveY", input.y);
+                    if (clothesAnimatorController[i].gameObject.activeSelf)
+                    {
+                        clothesAnimatorController[i].SetFloat("moveX", input.x);
+                        clothesAnimatorController[i].SetFloat("moveY", input.y);
+                    }
                 }
                 var targetPos = transform.position;
                 targetPos.x += input.x;
                 targetPos.y += input.y;
 
-            if(!limitedMovment)
-                if (isDoor(targetPos))
-                    if (isWalkable(targetPos))
-                        StartCoroutine(Move(targetPos));
+                if (isDoor(targetPos)) // check if the player is touching de door 
+                    if (isWalkable(targetPos)) // check if the player is touching any fourniture or blocked area
+                        StartCoroutine(Move(targetPos)); // moves the player
             }
         }
-        animatorController.SetBool("isMoving", isMoving);
-        for (int i = 0; i < clothesAnimatorController.Length; i++)
+        animatorController.SetBool("isMoving", isMoving); //says to the player it is moving
+       
+        
+        for (int i = 0; i < clothesAnimatorController.Length; i++) //say to all clothes it is moving
         {
             clothesAnimatorController[i].SetBool("isMoving", isMoving);
         }
 
 
-        if (doorWasTouched)
+        if (doorWasTouched) //gets into the store
             transform.position = Vector3.MoveTowards(transform.position, doorLocation.transform.position, 1f * Time.deltaTime);
 
-        isNPC();
+        isNPC(); //check if the player is in front of the NPC
     }
 
     IEnumerator Move(Vector3 targetPos)
     {
         isMoving = true;
-        movedAfterStore = true;
         while ((targetPos - transform.position).sqrMagnitude > Mathf.Epsilon)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPos, moveSpeed * Time.deltaTime);
@@ -123,6 +155,8 @@ public class PlayerController : MonoBehaviour
         {
             Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha, aValue, t));
             GetComponent<Renderer>().material.color = newColor;
+            transform.GetChild(0).GetComponent<Renderer>().material.color = newColor;
+            transform.GetChild(1).GetComponent<Renderer>().material.color = newColor;
             yield return null;
         }
         yield return new WaitForSeconds(0.5f);
@@ -136,5 +170,25 @@ public class PlayerController : MonoBehaviour
     public static void changeLimitMovmentStatus(bool state)
     {
         limitedMovment = state;
+    }
+
+    public static int CheckInputX()
+    {
+        if (playerIsRight)
+            return 1;
+        else if (playerIsLeft)
+            return -1;
+        else
+            return 0;
+    }
+
+    public static int CheckInputY()
+    {
+        if (playerIsUp)
+            return 1;
+        else if (playerIsDown)
+            return -1;
+        else 
+            return 0;
     }
 }

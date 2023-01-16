@@ -9,33 +9,61 @@ public class Inventory : MonoBehaviour
     public int contador;
     public GameObject inventory;
     public GameObject[] inventoryObj;
+    [SerializeField] AudioSource clickSound;
 
-    public Color cor;
-
-    public void Start()
+    public void inventoryOn()
     {
         posicoes = GameObject.FindGameObjectsWithTag("positions");
+        contador = 0;
 
         for (int i = 0; i < inventoryObj.Length; i++)
         {
-            GameObject inventoryGO = Instantiate(inventoryObj[i]);
-            AddToInventory(inventoryGO);
+            GameObject inventoryGO = Instantiate(inventoryObj[i], inventory.transform);
+            inventoryGO.transform.position = posicoes[contador].transform.position;
+            contador++;
         }
     }
-    void Update()
-    {
-    }
 
-    public void AddToInventory(GameObject obj)
+    public void AddToInventoryArray(GameObject obj)
     {
-        obj.transform.position = posicoes[contador].transform.position;
         inventoryObj[contador] = obj;
-        obj.transform.parent = inventory.transform;
         contador++;
     }
 
-    public void inventoryButton()
+    public void CleanInventoryHudCertainObject()
     {
-        cor = GetComponent<SpriteRenderer>().color;
+        GameObject[] allClothes;
+        allClothes = new GameObject[inventory.transform.childCount];
+
+        for (int i = 0; i < inventory.transform.childCount - 1; i++)
+        {
+            allClothes[i] = inventory.transform.GetChild(i + 1).gameObject;
+        }
+        foreach (GameObject go in allClothes)
+        {
+            if (go != null)
+            {
+                if (go.name == NPCUIController.clotheSelected.name)
+                    Destroy(go);
+            }
+        }
+    }
+    public void CleanInventoryHud()
+    {
+        GameObject[] allClothes;
+        allClothes = new GameObject[inventory.transform.childCount];
+
+        for (int i = 0; i < inventory.transform.childCount - 1; i++)
+        {
+            allClothes[i] = inventory.transform.GetChild(i + 1).gameObject;
+        }
+        foreach (GameObject go in allClothes)
+        {
+            if (go != null)
+            {
+                Destroy(go);
+            }
+        }
+
     }
 }

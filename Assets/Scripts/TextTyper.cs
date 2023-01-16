@@ -14,10 +14,9 @@ public class TextTyper : MonoBehaviour
    [SerializeField] TMP_Text textComp;
 
     // Use t$$anonymous$$s for initialization
-    void Start()
+    void OnEnable()
     {
         textComp = GetComponent<TMP_Text>();
-        message = textComp.text;
         textComp.text = "";
         StartCoroutine(TypeText());
     }
