@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 765994279000593544}
   - component: {fileID: 3235153073091740514}
   - component: {fileID: -7945555795427283708}
+  - component: {fileID: -6195198318377484911}
   m_Layer: 5
   m_Name: top cyan
   m_TagString: tops
@@ -137,7 +138,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clothesButton: {fileID: 0}
   select: {fileID: 6534333331236972258, guid: 1d336db09ef2c73478b267de4e88d959, type: 3}
-  price: 50
 --- !u!114 &-7945555795427283708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,3 +159,18 @@ MonoBehaviour:
   - {r: 0.5, g: 0.5, b: 0.5, a: 1}
   - {r: 0, g: 1, b: 1, a: 1}
   colorIndex: 6
+--- !u!114 &-6195198318377484911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2661716741348146320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b2336bc8445cc4e8aca9e1a5bd67ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _description: A  nice  T-shirt
+  _name: Cyan  Top
+  _price: 50

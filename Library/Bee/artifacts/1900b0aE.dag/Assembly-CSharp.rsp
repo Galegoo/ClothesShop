@@ -375,6 +375,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
+"Assets/Scripts/Clothes.cs"
 "Assets/Scripts/ClothesActivator.cs"
 "Assets/Scripts/ColorChanger.cs"
 "Assets/Scripts/DelayToAnimator.cs"
@@ -383,11 +384,13 @@
 "Assets/Scripts/FollowGameObject.cs"
 "Assets/Scripts/Inventory.cs"
 "Assets/Scripts/MoneyVerifier.cs"
+"Assets/Scripts/Music.cs"
 "Assets/Scripts/NPCUIController.cs"
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/PopUpActivator.cs"
-"Assets/Scripts/Shop.cs"
+"Assets/Scripts/SelectPositionRestarter.cs"
 "Assets/Scripts/TextTyper.cs"
+"Assets/Scripts/UiMuteButton.cs"
 -langversion:9.0
 
 /deterministic

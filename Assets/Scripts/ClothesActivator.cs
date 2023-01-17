@@ -11,14 +11,21 @@ public class ClothesActivator : MonoBehaviour
 	public static Color colorstorage;
 	public static string gameTag;
 	public static string gameName;
-	public int price;
-	[SerializeField] TMP_Text priceText;
+	public static string clothesDescription;
+	int price;
+	TMP_Text priceText;
+	TMP_Text descriptionText;
+	TMP_Text nameText;
+
 
 	void Start()
 	{
 		Button btn = GetComponent<Button>();
 		btn.onClick.AddListener(highlight);
 		select = GameObject.Find("select");
+
+		price = GetComponent<Clothes>().getprice();
+		clothesDescription = GetComponent<Clothes>().getDescription();
 	}
 
     void highlight()
@@ -27,7 +34,11 @@ public class ClothesActivator : MonoBehaviour
 		colorstorage = GetComponent<Image>().color;
 		gameName = gameObject.name;
 		gameTag = gameObject.tag;
-
+		GameObject warningText = GameObject.Find("WaningText");
+		if (warningText != null)
+        {
+			warningText.SetActive(false);
+        }
 		if (NPCUIController.selling)
         {
 			NPCUIController.clotheSelected = gameObject;
@@ -41,6 +52,15 @@ public class ClothesActivator : MonoBehaviour
 			Debug.Log(NPCUIController.clotheSelected);
 			priceText = GameObject.Find("priceTextBuy").GetComponent<TMP_Text>();
 			priceText.text = "Price :" + price;
+		}
+        else
+        {
+			descriptionText = GameObject.Find("ItemDescriptionText").GetComponent<TMP_Text>();
+			nameText = GameObject.Find("ItemNameText").GetComponent<TMP_Text>();
+			descriptionText.enabled = true;
+			nameText.enabled = true;
+			descriptionText.text = "" + GetComponent<Clothes>().getDescription();
+			nameText.text = "" + GetComponent<Clothes>().getName();
 		}
 	}
 }

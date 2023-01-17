@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -30,24 +28,6 @@ public class Inventory : MonoBehaviour
         contador++;
     }
 
-    public void CleanInventoryHudCertainObject()
-    {
-        GameObject[] allClothes;
-        allClothes = new GameObject[inventory.transform.childCount];
-
-        for (int i = 0; i < inventory.transform.childCount - 1; i++)
-        {
-            allClothes[i] = inventory.transform.GetChild(i + 1).gameObject;
-        }
-        foreach (GameObject go in allClothes)
-        {
-            if (go != null)
-            {
-                if (go.name == NPCUIController.clotheSelected.name)
-                    Destroy(go);
-            }
-        }
-    }
     public void CleanInventoryHud()
     {
         GameObject[] allClothes;

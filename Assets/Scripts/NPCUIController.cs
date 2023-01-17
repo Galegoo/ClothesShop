@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -30,12 +29,17 @@ public class NPCUIController : MonoBehaviour
     [SerializeField] GameObject objectsbuy;
     [SerializeField] TMP_Text moneySellText;
     [SerializeField] TMP_Text moneyBuyText;
+    [SerializeField]TMP_Text warningText;
 
     int contador;
     int timesBuyWasOpen;
     int timesNpcWasOpen;
 
+    static bool _isSellOrBuyOn;
+
     [SerializeField] AudioSource clickSound;
+    [SerializeField] AudioSource SellSound;
+    [SerializeField] AudioSource BuySound;
 
     private void Awake()
     {
@@ -53,7 +57,7 @@ public class NPCUIController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {       
         isNPCActive = baloonsCanvas.activeSelf;
 
         if (baloonsCanvas.activeSelf)
@@ -80,44 +84,50 @@ public class NPCUIController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.LeftArrow) && index > 1)
             {
                 index -= 1;
-                clickSound.Play();
+                if(clickSound != null)
+                    clickSound.Play();
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow) && index < 3)
             {
                 index += 1;
-                clickSound.Play();
+                if (clickSound != null)
+                    clickSound.Play();
             }
-            if (Input.GetKeyDown(KeyCode.E))
+            if (!BuyInventory.activeSelf && !SellInventory.activeSelf)
             {
-                switch (index)
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    case 1:
-                        OpenNpc(BuyInventory);
-                        buying = true;
-                        if (timesBuyWasOpen < 1)
-                        {
-                            contador = 0;
-                            DrawBuyInventory();
-                            timesBuyWasOpen++;
-                        }
-                        break;
-                    case 2:
-                        OpenNpc(SellInventory);
-                        selling = true;
+                    switch (index)
+                    {
+                        case 1:
+                            OpenNpc(BuyInventory);
+                            buying = true;
+                            if (timesBuyWasOpen < 1)
+                            {
+                                contador = 0;
+                                DrawBuyInventory();
+                                timesBuyWasOpen++;
+                            }
+                            break;
+                        case 2:
+                            OpenNpc(SellInventory);
+                            selling = true;
                             contador = 0;
                             DrawSellInventory();
 
-                        break;
-                    case 3:
-                        PlayerController.changeLimitMovmentStatus(false);
-                        pressEtoInteractCanvas.SetActive(false);
-                        baloonsCanvas.SetActive(false);
-                        index = 1;
-                        StartCoroutine(WaitToOpenNpcAgain());
-                        break;
+                            break;
+                        case 3:
+                            PlayerController.changeLimitMovmentStatus(false);
+                            pressEtoInteractCanvas.SetActive(false);
+                            baloonsCanvas.SetActive(false);
+                            index = 1;
+                            StartCoroutine(WaitToOpenNpcAgain());
+                            break;
+                    }
+                    if (clickSound != null)
+                        clickSound.Play();
                 }
-                clickSound.Play();
-            }
+            }     
         }
         if (PlayerController.GetNpcWasTouched())                    // NPC INTERACTION
         {
@@ -151,6 +161,13 @@ public class NPCUIController : MonoBehaviour
                 moneyBuyText.text = "" + MoneyVerifier.money;
         }
     }
+    public void AddToInventoryBuy(GameObject obj)
+    {
+        obj.transform.position = positionsbuy[contador].transform.position;
+        allClothestoBuy[contador] = obj;
+        //obj.transform.parent = inventory.transform;
+        contador++;
+    }
 
     void DrawBuyInventory()
     {
@@ -167,8 +184,6 @@ public class NPCUIController : MonoBehaviour
         {
             GameObject inventoryGO = Instantiate(inventoryRef.inventoryObj[i], objectssell.transform);
             inventoryGO.transform.position = positions[contador].transform.position;
-            //inventoryRef.inventoryObj[contador] = inventoryGO;
-            //obj.transform.parent = inventory.transform;
             contador++;
         }
     }
@@ -223,7 +238,8 @@ public class NPCUIController : MonoBehaviour
     }
     public void closesell()
     {
-        clickSound.Play();
+        if (clickSound != null)
+            clickSound.Play();
         CleanInventory(objectssell);
         SellInventory.SetActive(false);
         selling = false;
@@ -233,47 +249,52 @@ public class NPCUIController : MonoBehaviour
 
     public void closeBuy()
     {
-        clickSound.Play();
+        if (clickSound != null)
+            clickSound.Play();
         BuyInventory.SetActive(false);
         buying = false;
         clotheSelected = null;
     }
     public void Buy()
-    {
-        clickSound.Play();
-        if (clotheSelected != null && clotheSelected.GetComponent<ClothesActivator>().price <= MoneyVerifier.money)
+    {;
+        if (clotheSelected != null && clotheSelected.GetComponent<Clothes>().getprice() <= MoneyVerifier.money)
         {
-            AddElement(ref inventoryRef.inventoryObj);
+            AddElementInArray(ref inventoryRef.inventoryObj);
             inventoryRef.inventoryObj[inventoryRef.inventoryObj.Length - 1] = clotheSelected;
             //GameObject newGo = Instantiate(clotheSelected, inventoryRef.inventory.transform);
-            MoneyVerifier.money = MoneyVerifier.money - clotheSelected.GetComponent<ClothesActivator>().price;
+            MoneyVerifier.money = MoneyVerifier.money - clotheSelected.GetComponent<Clothes>().getprice();
             clotheSelected = null;
-            Debug.Log("bought");
+            if (BuySound != null)
+                BuySound.Play();
         }
     }
     public void Sell()
-    {
-        clickSound.Play();    
+    {    
         if (clotheSelected != null)
         {
-            CleanInventorySpecific(objectssell);
-            for (int i = 0; i < inventoryRef.inventoryObj.Length; i++)
+            if (!Check_If_Item_To_Be_Selled_Is_Equiped())
             {
-                if (inventoryRef.inventoryObj[i].gameObject.name + "(Clone)" == clotheSelected.name)
+                CleanInventorySpecific(objectssell);
+                for (int i = 0; i < inventoryRef.inventoryObj.Length; i++)
                 {
-                    Destroy(objectssell.transform.GetChild(i)); //destroi o child no sell
-                    RemoveElement(ref inventoryRef.inventoryObj, i);
-                    Debug.Log("it should've been removed");
-                    Debug.Log(clotheSelected.name);
+                    if (inventoryRef.inventoryObj[i].gameObject.name + "(Clone)" == clotheSelected.name)
+                    {
+                        Destroy(objectssell.transform.GetChild(i)); //destroi o child no sell
+                        RemoveElementFromArray(ref inventoryRef.inventoryObj, i);
+                        Debug.Log(clotheSelected.name);
+                        if (SellSound != null)
+                            SellSound.Play();
+                    }
                 }
-            }
-                MoneyVerifier.money = MoneyVerifier.money + (clotheSelected.GetComponent<ClothesActivator>().price / 2);
+                MoneyVerifier.money = MoneyVerifier.money + (clotheSelected.GetComponent<Clothes>().getprice() / 2);
                 clotheSelected = null;
-            }  
+            }
         }
+           
+    }
  
 
-    void RemoveElement<T>(ref T[] arr, int index)
+    void RemoveElementFromArray<T>(ref T[] arr, int index)
     {
         for (int i = index; i < arr.Length - 1; i++)
         {
@@ -284,23 +305,40 @@ public class NPCUIController : MonoBehaviour
         Array.Resize(ref arr, arr.Length - 1);
     }
 
-    void AddElement<T>(ref T[] arr)
+    void AddElementInArray<T>(ref T[] arr)
     {
         Array.Resize(ref arr, arr.Length + 1);
-    }
-
-    public void AddToInventoryBuy(GameObject obj)
-    {
-        obj.transform.position = positionsbuy[contador].transform.position;
-        allClothestoBuy[contador] = obj;
-        //obj.transform.parent = inventory.transform;
-        contador++;
     }
     IEnumerator WaitToOpenNpcAgain()
     {
         yield return new WaitForSeconds(0.2f);
         timesNpcWasOpen = 0;
     }
+        bool Check_If_Item_To_Be_Selled_Is_Equiped()
+    {
+        Equip equipRef = FindObjectOfType<Equip>();
+        int check = 0;
+        for (int i = 0; i < equipRef.equipedItems.Length; i++)
+        {
+            if (equipRef.equipedItems[i] != null)
+            {
+                if (clotheSelected.gameObject.tag == equipRef.equipedItems[i].gameObject.tag && clotheSelected.GetComponent<Image>().color == equipRef.equipedItems[i].GetComponent<SpriteRenderer>().color)
+                {
+                    check++;
+                }
+            }
+        }
+        if (check > 0)
+        {
+            Debug.Log("Equiped, Cant be Selled");
+            warningText.gameObject.SetActive(true);
+            return true;
 
-    //Add to inventory obj if you wanna add something to inventory
+        }
+        else
+        {
+            Debug.Log("NotEquiped, Sold");
+            return false;
+        }
+    }
 }

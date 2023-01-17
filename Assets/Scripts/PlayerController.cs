@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,12 +24,15 @@ public class PlayerController : MonoBehaviour
     private Animator animatorController;
     public Animator[] clothesAnimatorController;
 
+    [SerializeField] AudioSource gotIntoShop;
+
     private void Awake()
     {
         animatorController = GetComponent<Animator>();
         doorWasTouched = false;
         npcWasTouched = false;
         limitedMovment = false;
+        DontDestroyOnLoad(this.gameObject);
     }
 
     // Update is called once per frame
@@ -127,11 +129,13 @@ public class PlayerController : MonoBehaviour
     }
     private bool isDoor(Vector3 targetPos)
     {
-        if (Physics2D.OverlapCircle(targetPos, 0.001f, DoorLayer) != null)
+        if (Physics2D.OverlapCircle(targetPos, 0.001f, DoorLayer) != null )
         {
             doorWasTouched = true;
             isMoving = true;
             StartCoroutine(FadeTo(0f, 2f));
+            if (gotIntoShop != null)
+                gotIntoShop.Play();
             return false;
         }
         return true;

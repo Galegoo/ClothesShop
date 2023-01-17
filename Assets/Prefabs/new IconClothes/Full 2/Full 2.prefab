@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2756474897371838560}
   - component: {fileID: 765994279000593544}
   - component: {fileID: 3235153073091740514}
+  - component: {fileID: -4492730444394617072}
   m_Layer: 5
   m_Name: Full 2
   m_TagString: full2
@@ -29,8 +30,8 @@ RectTransform:
   m_GameObject: {fileID: 2661716741348146320}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.88, y: 0.88, z: 0.88}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -135,5 +136,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clothesButton: {fileID: 0}
-  select: {fileID: 6534333331236972258, guid: 1d336db09ef2c73478b267de4e88d959, type: 3}
-  price: 100
+  select: {fileID: 0}
+--- !u!114 &-4492730444394617072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2661716741348146320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b2336bc8445cc4e8aca9e1a5bd67ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _description: A  beautiful  robe
+  _name: Green  Robe
+  _price: 125
