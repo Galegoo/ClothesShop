@@ -1,0 +1,79 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - positions
+  - legs
+  - tops
+  - full
+  - full2
+  - music
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - SolidObjects
+  - Door
+  - NPC
+  - Player
+  - Clothes
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 3332802133
+    locked: 0
+  - name: Door
+    uniqueID: 3190291071
+    locked: 0
+  - name: Visuals
+    uniqueID: 63860929
+    locked: 0
+  - name: Foreground
+    uniqueID: 2058372865
+    locked: 0
+  - name: Foreground 2
+    uniqueID: 106637013
+    locked: 0
+  - name: Baloon Canvas
+    uniqueID: 4010479717
+    locked: 0
+  - name: NPC
+    uniqueID: 1394731833
+    locked: 0
+  - name: Player
+    uniqueID: 521316861
+    locked: 0
+  - name: Visuals 2
+    uniqueID: 2659799427
+    locked: 0
+  - name: Inventory
+    uniqueID: 3815956557
+    locked: 0
